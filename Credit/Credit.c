@@ -1,64 +1,97 @@
-#include <cs50.h>
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-bool not_repeating(string d);   //We will use this function to check our key for repeating characters
-bool alphabetic(string d);      //We will use this function to check our key for non-alphabetic characters
-int main(int argc, string argv[])
+#include <cs50.h>
+#include <math.h>
+int muchdig (long num);
+int oddsum(long j);
+int everyother_sum(long j);
+int main (void)
 {
-    int len= strlen(argv[1]);
-    if(argc == 2 && len == 26 && alphabetic(argv[1])==true && not_repeating(argv[1])==true){        //We check the necessary conditions
-        string P=get_string("Plain Text: ");
-        int l2= strlen(P);
-        for(int l = 0;l<l2;l++){
-            if((P[l]<65 && 31<P[l] )||( 90<P[l] && P[l]<97) || (122<P[l] && P[l]<127)){     //If l. character is not an alphabetic character
-                l++;                                                                        //we are going to skip it.
-            }
-            if(isupper(P[l])){          //If l. char is an upper case letter we will subtract 65 from it's ascii value
-                int a=P[l]-65;                //This will give us how much to shift in key
-                P[l]=(toupper(argv[1][a]));     //we will shift through the key that times and update plain text string.
-            }
-            if(islower(P[l])){
-                int b=P[l]-97;                
-                P[l]=(tolower(argv[1][b]));
+int counter= 0;
+long i = get_long("Kart numarasını giriniz: ");
+long i12=i;
+    while(i12!=0){
+        i12 = i12/10;
+        counter++;
+    }
+    if(counter == 13 || counter == 15 || counter == 16){
+        int e1 = everyother_sum(i);
+        int e2 = oddsum(i);
+        int e3=e1+e2;
+            if(e3%10==0){
+                if(counter==15){
+                    printf("AMEX");
+                    printf("\n");
+                    return 0;
                 }
-        }printf("Cipher Text: %s\n",P);
-    }
-    if(argc != 2){
-        printf("Usage: ./substitution key\n");      //If there is more or less argument from our threshold  
-        return 1;                                   // we will return 1 and finish the sequence
-    }
-    if(len != 26){
-        printf("Key must contain 26 characters.\n");    //If the key is not 26 characters long we will return 1 and finish the sequence
-        return 1;
-    }
-    if(alphabetic(argv[1])==false){
-        printf("Key must only contain alphabetic characters.\n");          //We are controlling the key for non-alphabetic characters.
-        return 1;
-    }
-    if(not_repeating(argv[1])==false){                                     //We are controlling the key for repeating characters.
-        printf("Key must not contain repeated characters.\n");
-        return 1;
-    }
-}
-bool not_repeating(string d){                   
-    for(int i=0;i<26;i++){                          //we are comparing every char with other chars 
-        for(int j=i+1;j<26;j++){                    //to find any repeating characters.
-            if(d[i] == d[j]){
-               return false;
+                if(counter==13){
+                    printf("VISA");
+                    printf("\n");
+                    return 0;
+                }
+                if(counter==16){
+                    int i3=i/pow(10,15);
+                    if(i3==4){
+                        printf("VISA");
+                        printf("\n");
+                        return 0;
+                    }
+                    int i1=i/pow(10,14);
+                    if(i1==51||i1==52 ||i1==53 ||i1==54|| i1==55){
+                        printf("MASTERCARD");
+                        printf("\n");
+                        return 0;
+                    }
+                    else{
+                        printf("INVALID");
+                        printf("\n");
+                        return 0;
+                    }
+                }
             }
+            if(e3%10!=0){
+                printf("INVALID");
+                printf("\n");
+                return 0;
+            }
+    }
+    else{
+        printf("INVALID");
+        printf("\n");
+        return 0;
         }
-    }
-    return true;
+    printf("\n");
 }
-bool alphabetic(string j){
-    for(int i = 0; j[i]; i++){                  //we are lower casing the key for more easyness.
-        j[i] = tolower(j[i]);
+int oddsum(long j){
+int count2=(ceil(muchdig(j)/2));
+int a2, b2, c2, d2, sum2=0;
+        j/=10;
+        while(count2!=0){
+            a2=((j%10)*2);
+            b2=a2%10;
+            c2=a2/10;
+            d2=c2+b2;
+            j/=100;
+            sum2=sum2+d2;
+            count2--;
+        }
+        return sum2;
+}
+int everyother_sum(long j){
+int count=(ceil(muchdig(j)/2));
+int a, sum3=0;
+        while(count!=0){
+            a=j%10;
+            j/=100;
+            sum3=a+sum3;
+            count--;
+        }
+    return sum3;
+}
+int muchdig (long num){
+    int dig = 0;
+    while(num!=0){
+        num /=10;
+        dig++;
     }
-            for(int k=0;k<26;k++){              //we are looking every chars ascii value to validate it's an indeed alphabetic character
-                if((j[k]<96 && j[k]!=32) || (123<j[k] && j[k]!=32)){
-                   return false;
-                }
-            }
-            return true;
+    return dig;
 }
