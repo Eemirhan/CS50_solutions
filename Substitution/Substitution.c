@@ -26,19 +26,19 @@ int main(int argc, string argv[])
     }
     if(argc != 2){
         printf("Usage: ./substitution key\n");      //If there is more or less argument from our threshold  
-        return 1;                                   // we will return 1 and finish the sequence
+        return 0;                                   // we will return 1 and finish the sequence
     }
     if(len != 26){
         printf("Key must contain 26 characters.\n");    //If the key is not 26 characters long we will return 1 and finish the sequence
-        return 1;
+        return 0;
     }
     if(alphabetic(argv[1])==false){
         printf("Key must only contain alphabetic characters.\n");          //We are controlling the key for non-alphabetic characters.
-        return 1;
+        return 0;
     }
     if(not_repeating(argv[1])==false){                                     //We are controlling the key for repeating characters.
         printf("Key must not contain repeated characters.\n");
-        return 1;
+        return 0;
     }
 }
 bool not_repeating(string d){                   
