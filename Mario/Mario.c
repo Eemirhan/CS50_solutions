@@ -3,24 +3,23 @@
 
 int main (void){
     {
-    int j;
     do
     {
-        j = get_int("piramdin taban genişliğini giriniz: ");
+        int j = get_int("Height: ");        //We keep geting the desired height value from user
     }
-    while(j<1 || j>8);
+    while(j<1 || j>8);                      //till the desired value is within the specified range
      {
         for(int tmp_row = 1;tmp_row<=j;tmp_row++)
         {
-            for(int i=j-tmp_row;(i!=0);i--){
+            for(int i=j-tmp_row;(i!=0);i--){        //to print spaces for pyramid shape
                 printf(" ");
             }
-            for(int i=tmp_row;i>0;i--){
+            for(int i=tmp_row;i>0;i--){             //to print hashes for left side of the pyramid
                 printf("#");
             }
-            printf("  ");
+            printf("  ");                           //to print 2 spaces for desired shape
             for(int i=tmp_row;i>0;i--){
-                printf("#");
+                printf("#");                        //to print hashes for right side of the pyramid
             }
             printf("\n");
         }
